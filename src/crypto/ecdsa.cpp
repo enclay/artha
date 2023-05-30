@@ -13,10 +13,11 @@
 namespace artha {
 
 ECPoint::ECPoint()
-	: _ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY)) {
-
+	: _ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY))
+{
 	std::string new_key = GenerateRandomPrivateKey();
 	_privkey = {new_key.begin(), new_key.end()};
+
 	if (_privkey.size() != 32)
 		throw ECPointException("size not equal to 32: " + std::to_string(_privkey.size()));
 
@@ -27,13 +28,14 @@ ECPoint::ECPoint()
 		throw ECPointException("Unable to create public key");
 }
 
-ECPoint::~ECPoint() {
+ECPoint::~ECPoint()
+{
 	secp256k1_context_destroy(_ctx);
 }
 
 ECPoint::ECPoint(const Key &privateKey)
-	: _ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY)) {
-
+	: _ctx(secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY))
+{
 	_privkey = artha::DecodeBase16(privateKey);
 
 	if (!VerifyKey())
@@ -43,11 +45,13 @@ ECPoint::ECPoint(const Key &privateKey)
 		throw ECPointException("Unable to create public key");
 }
 
-bool ECPoint::VerifyKey() {
+bool ECPoint::VerifyKey()
+{
 	return secp256k1_ec_seckey_verify(_ctx, _privkey.data());
 }
 
-bool ECPoint::CreatePublicKey(bool compressed) {
+bool ECPoint::CreatePublicKey(bool compressed)
+{
 	secp256k1_pubkey pubkey;
 	if (!secp256k1_ec_pubkey_create(_ctx, &pubkey, _privkey.data()))
 		return false;
@@ -60,7 +64,8 @@ bool ECPoint::CreatePublicKey(bool compressed) {
 	return true;
 }
 
-std::tuple<std::vector<uint8_t>, bool> ECPoint::Sign(Bytes hash) const {
+std::tuple<std::vector<uint8_t>, bool> ECPoint::Sign(Bytes hash) const
+{
 	secp256k1_ecdsa_signature sig;
 	int ret = secp256k1_ecdsa_sign(_ctx, &sig, hash.data(), _privkey.data(),
 		secp256k1_nonce_function_rfc6979, nullptr);
@@ -77,8 +82,8 @@ std::tuple<std::vector<uint8_t>, bool> ECPoint::Sign(Bytes hash) const {
 	return std::make_tuple(sigout, true);
 }
 
-bool ECPoint::Verify(Bytes msgHash, const Bytes sign, const Key pubKey) {
-
+bool ECPoint::Verify(Bytes msgHash, const Bytes sign, const Key pubKey)
+{
 	if (pubKey.size() != PUBLIC_KEY_SIZE)
 		throw ECPointException("Invalid public key size: " + std::to_string(pubKey.size()));
 

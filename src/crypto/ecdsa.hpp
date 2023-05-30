@@ -15,10 +15,10 @@ typedef std::vector<unsigned char> Bytes, Key;
 class ECPointException: public std::runtime_error {
 public:
 	ECPointException(const std::string &error) noexcept
-		: std::runtime_error(error) {
-	}
+		: std::runtime_error(error) {  }
 
-	const char *what() const noexcept {
+	const char *what() const noexcept
+	{
 		return std::runtime_error::what();
 	}
 };
@@ -53,6 +53,7 @@ private:
 
 }
 
-inline std::ostream &operator<<(std::ostream &stream, artha::Key k) {
+inline std::ostream &operator<<(std::ostream &stream, artha::Key k)
+{
 	return stream << std::string(k.begin(), k.end());
 }

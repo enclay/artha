@@ -3,7 +3,8 @@
 
 using namespace artha;
 
-int main() {
+int main()
+{
 	ECPoint point;
 	std::cout << "Public key: " << point.PublicKeyHex() << std::endl;
 	return 0;

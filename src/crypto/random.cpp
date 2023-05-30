@@ -7,7 +7,8 @@
 
 namespace artha {
 
-std::string GenerateRandomPrivateKey() {
+std::string GenerateRandomPrivateKey()
+{
 	unsigned now = std::chrono::system_clock::now().time_since_epoch().count();
 	std::seed_seq seed{now};
 	std::mt19937_64 eng(seed);
