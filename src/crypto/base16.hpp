@@ -6,7 +6,7 @@
 namespace artha {
 
 template <typename type = unsigned char>
-std::vector<type> EncodeBase16(const std::vector<type> str, bool capital = false)
+std::vector<type> EncodeBase16(std::vector<type> str, bool capital = false)
 {
 	std::vector<type> hexstr;
 	hexstr.resize(str.size() * 2);
