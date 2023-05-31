@@ -1,16 +1,19 @@
 #pragma once
 
 #include <string>
-#include <tuple>
 #include <vector>
+#include <tuple>
 #include <ostream>
 
 #include <secp256k1.h>
+#include <secp256k1_ecdh.h>
+#include <secp256k1_recovery.h>
+
 #include <crypto/base16.hpp>
 
 namespace artha {
 
-typedef std::vector<unsigned char> Bytes, Key;
+typedef std::vector<unsigned char> ByteArray, Key;
 
 class ECPointException: public std::runtime_error {
 public:
@@ -29,13 +32,15 @@ public:
 	ECPoint(const Key &privateKey);
 	~ECPoint();
 
+	using MessageHash = std::array<uint8_t, 32>;
+
 	Key PublicKey() const { return _pubkey; }
 	Key PrivateKey() const { return _privkey; }
 	Key PublicKeyHex() const { return EncodeBase16(_pubkey); }
 	Key PrivateKeyHex() const { return EncodeBase16(_privkey); }
 
-	std::tuple<Key, bool> Sign(Bytes hash) const;
-	static bool Verify(Bytes msg_hash, const Bytes sig, const Key pubkey);
+	std::tuple<ByteArray, bool> Sign(const MessageHash &msg) const;
+	static bool Verify(const MessageHash &msg, const ByteArray &signature, const Key &pubkey);
 
 protected:
 	bool VerifyKey();
