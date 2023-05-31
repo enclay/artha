@@ -22,9 +22,12 @@ namespace artha {
 		struct DistributionSelector<true, T> {
 			using type = std::uniform_real_distribution<T>;
 		};
+
+		template <bool IsFloatingPoint, typename T>
+		using DistributionSelectorType = typename DistributionSelector<IsFloatingPoint, T>::type;
 		
 		template <typename T>
-		using UniformDistribution = typename DistributionSelector<std::is_floating_point_v<T>, T>::type;
+		using UniformDistribution = DistributionSelectorType<std::is_floating_point_v<T>, T>;
 	}
 
 	template <class T>
