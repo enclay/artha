@@ -8,6 +8,7 @@
 #include <crypto/pubkey.hpp>
 #include <crypto/sha256.hpp>
 #include <crypto/base16.hpp>
+#include <crypto/random.hpp>
 
 namespace artha {
 

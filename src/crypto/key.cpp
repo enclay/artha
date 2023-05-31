@@ -35,7 +35,7 @@ std::tuple<ByteArray, bool> SecretKey::Sign(const MessageHash &msg) {
 }
 
 void SecretKey::GenerateNew() {
-	Set(GenerateRandomPrivateKey());
+	Set(RandomSecretKey());
 	
 	if (_keydata.size() != 32)
 		throw std::runtime_error("size not equal to 32: " + std::to_string(_keydata.size()));

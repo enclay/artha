@@ -51,7 +51,7 @@ Transaction Transaction::CreateRandom() {
 	SecretKey key = SecretKey::New();
 	ByteArray pubkey = key.GetPublicKey().ToHex();
 	std::string address{pubkey.begin(), pubkey.end()};
-	uint64_t amount = rand() % 5000 + 100;
+	uint64_t amount = Random<uint64_t>(100, 5000);
 
 	Transaction tx;
 	tx.AddInput({amount, address, {}});

@@ -6,6 +6,6 @@ using namespace artha;
 int main()
 {
 	auto tx = Transaction::FromString(Transaction::CreateRandom().ToString());
-	std::cout <<  tx.ToString() << std::endl;
+	std::cout << tx.ToString() << std::endl;
 	return 0;
 }

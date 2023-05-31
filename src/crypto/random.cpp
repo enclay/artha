@@ -3,11 +3,10 @@
 #include <crypto/sha256.hpp>
 
 #include <chrono>
-#include <random>
 
 namespace artha {
 
-std::string GenerateRandomPrivateKey()
+std::string RandomSecretKey()
 {
 	unsigned now = std::chrono::system_clock::now().time_since_epoch().count();
 	std::seed_seq seed{now};
