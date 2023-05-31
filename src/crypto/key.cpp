@@ -64,4 +64,10 @@ bool SecretKey::IsValid() {
 	return secp256k1_ec_seckey_verify(Secp256k1Context::Get(), _keydata.data());
 }
 
+SecretKey SecretKey::New() {
+	SecretKey key;
+	key.GenerateNew();
+	return key;
+}
+
 }

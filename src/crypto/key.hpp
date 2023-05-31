@@ -24,6 +24,8 @@ public:
 	ByteArray ToHex() const { return EncodeBase16(this->ToBytes());}
 	ByteArray ToBytes() const { return ByteArray{_keydata.begin(), _keydata.end()}; }
 
+	static SecretKey New();
+
 public:
 	static constexpr size_t SIGNATURE_SIZE = 72;
 	static constexpr size_t SIZE = 32;
