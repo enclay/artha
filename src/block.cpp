@@ -3,7 +3,7 @@
 
 #include <chrono>
 #include <sstream>
-#include <nlohmann/json.hpp>
+#include <nlohmann/adl_serializer.hpp>
 
 namespace artha {
 
@@ -21,9 +21,9 @@ Block::Block(std::initializer_list<Transaction> txs): _txs(txs)
 
 std::string Block::ToString() const
 {
-	std::vector<std::string> txs;
+	std::vector<json> txs;
 	for (auto &tx: _txs)
-		txs.push_back(tx.ToString());
+		txs.push_back(json::parse(tx.ToString()));
 
 	json j;
 	j["nonce"] = _nonce;
@@ -39,6 +39,15 @@ Block Block::FromString(const std::string &raw)
 {
 	Block block;
 	json j = json::parse(raw);
+	block.SetNonce(j["nonce"]);
+	block.SetHeight(j["height"]);
+	block.SetTimestamp(j["timestamp"]);
+	block.SetPreviousHash(j["prevhash"]);
+	
+	for (auto &item: j["txs"]) {
+		block.AddTransaction(Transaction::FromString(item));
+	}
+
 	return block;
 }
 

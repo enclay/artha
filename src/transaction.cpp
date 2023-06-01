@@ -1,7 +1,5 @@
 #include <transaction.hpp>
 
-#include <nlohmann/json.hpp>
-
 namespace artha {
 
 using namespace nlohmann;

@@ -2,8 +2,11 @@
 
 #include <transaction.hpp>
 #include <block.hpp>
+#include <nlohmann/json.hpp>
 
 namespace artha {
+
+using nlohmann::json;
 
 class Blockchain {
 public:

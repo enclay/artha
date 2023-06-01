@@ -5,8 +5,11 @@
 #include <initializer_list>
 
 #include <transaction.hpp>
+#include <nlohmann/json.hpp>
 
 namespace artha {
+
+using nlohmann::json;
 
 class Block {
 public:
@@ -33,6 +36,7 @@ public:
 	void UpdateTimestamp();
 
 	std::string ToString() const;
+
 	static Block FromString(const std::string &raw);
 	static Block Genesis();
 

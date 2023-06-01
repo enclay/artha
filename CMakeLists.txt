@@ -18,6 +18,7 @@ file(GLOB ARTHA_HEADER_FILES
 set(ARTHA_INCLUDE_DIRS
 	"src/"
 	"3rdparty/"
+	"3rdparty/termcolor/"
 )
 
 add_executable(artha ${ARTHA_SOURCES})

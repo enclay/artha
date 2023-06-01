@@ -10,7 +10,11 @@
 #include <crypto/base16.hpp>
 #include <crypto/random.hpp>
 
+#include <nlohmann/json.hpp>
+
 namespace artha {
+
+using nlohmann::json;
 
 struct Input {
 	uint64_t amount;

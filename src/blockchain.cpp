@@ -1,4 +1,3 @@
-#include <transaction.hpp>
 
 #include <blockchain.hpp>
 
@@ -6,11 +5,8 @@
 #include <filesystem>
 #include <fstream>
 
-#include <nlohmann/json.hpp>
 
 namespace artha {
-
-using nlohmann::json;
 
 Blockchain::Blockchain(bool isMain): _isMain(isMain)
 {
@@ -51,7 +47,7 @@ void Blockchain::Load(const std::string &filename)
 	std::ifstream str(filename);
 	std::stringstream buffer; buffer << str.rdbuf();
 	*this = Blockchain::FromString(buffer.str());
-	str.close();	
+	str.close();
 }
 
 void Blockchain::Save(const std::string &filename)
@@ -63,13 +59,13 @@ void Blockchain::Save(const std::string &filename)
 
 std::string Blockchain::ToString() const
 {
-	std::vector<std::string> blocks, pool;
+	std::vector<json> blocks, pool;
 
 	for (auto &it: _blocks)
-		blocks.push_back(it.ToString());
+		blocks.push_back(json::parse(it.ToString()));
 
 	for (auto &it: _pool)
-		pool.push_back(it.ToString());
+		pool.push_back(json::parse(it.ToString()));
 
 	json j;
 	j["blocks"] = blocks;
