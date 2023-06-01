@@ -50,6 +50,7 @@ Block Block::Genesis() {
 	Block block;
 	block.AddTransaction(tx);
 	block.SetPreviousHash("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+	block.SetHash(block.CalcHash());
 	block.SetHeight(0);
 	
 	return block;
@@ -64,7 +65,7 @@ void Block::UpdateTimestamp()
 	_timestamp = elapsed.count();
 }
 
-std::string Block::Hash() const
+std::string Block::CalcHash() const
 {
 	return SHA256(ToString());
 }

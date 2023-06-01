@@ -29,12 +29,16 @@ public:
 	void SetTransactions(std::vector<Transaction> txs) { _txs = txs; }
 
 	void AddTransaction(const Transaction &tx);
+	void AddBlock(const Transaction &tx);
 	void UpdateTimestamp();
-	std::string Hash() const;
 
 	std::string ToString() const;
 	static Block FromString(const std::string &raw);
 	static Block Genesis();
+
+	void SetHash(const std::string &hash) { _hash = hash; }
+	std::string Hash() const { return _hash; }
+	std::string CalcHash() const;
 
 protected:
 	std::vector<Transaction> _txs;
@@ -42,6 +46,7 @@ protected:
 	uint8_t _height;
 	uint8_t _nonce;
 	std::string _prevHash;
+	std::string _hash;
 };
 
 }
