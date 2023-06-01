@@ -8,12 +8,14 @@ namespace artha {
 
 class Secp256k1Context {
 public:
-	static Secp256k1Context &Get() {
+	static Secp256k1Context &Get()
+	{
 		static Secp256k1Context ctx;
 		return ctx;
 	}
 	
-	operator secp256k1_context*() {
+	operator secp256k1_context*()
+	{
 		return _ctx;
 	}
 

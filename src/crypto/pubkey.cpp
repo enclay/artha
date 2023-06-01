@@ -4,15 +4,19 @@
 
 namespace artha {
 
-void PublicKey::Set(std::span<const uint8_t> data) {
+void PublicKey::Set(std::span<const uint8_t> data)
+{
 	for (size_t i = 0; i < SIZE && i < data.size(); i++)
 		_data[i] = data[i];
 }
-PublicKey::PublicKey(std::span<const uint8_t> data) {
+
+PublicKey::PublicKey(std::span<const uint8_t> data)
+{
 	Set(data);
 }
 
-bool PublicKey::Verify(const MessageHash &msg, const ByteArray &signatureData) {
+bool PublicKey::Verify(const MessageHash &msg, const ByteArray &signatureData)
+{
 	if (_data.size() != SIZE)
 		throw std::runtime_error("Invalid public key size: " + std::to_string(_data.size()));
 

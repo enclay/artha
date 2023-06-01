@@ -31,7 +31,8 @@ namespace artha {
 	}
 
 	template <class T>
-	T Random(T from, T to) {
+	T Random(T from, T to)
+	{
 		std::random_device engine;
 		internal::UniformDistribution<T> dist(from, to);
 		return dist(engine);

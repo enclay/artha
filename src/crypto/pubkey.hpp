@@ -25,7 +25,7 @@ public:
 	static constexpr size_t SIZE = 65;
 
 protected:
-	std::array<std::uint8_t, SIZE> _data;
+	std::array<uint8_t, SIZE> _data;
 };
 
 }

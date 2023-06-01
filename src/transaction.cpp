@@ -6,25 +6,30 @@ namespace artha {
 
 using namespace nlohmann;
 
-std::string Input::Serialize() const {
+std::string Input::Serialize() const
+{
 	return json{{"amount", amount}, {"address", address}}.dump();
 }
 
-void Input::Deserialize(const std::string &raw) {
+void Input::Deserialize(const std::string &raw)
+{
 	json j = json::parse(raw);
 	amount = j["amount"], address = j["address"];
 }
 
-std::string Output::Serialize() const {
+std::string Output::Serialize() const
+{
 	return json{{"amount", amount}, {"address", address}}.dump();
 }
 
-void Output::Deserialize(const std::string &raw) {
+void Output::Deserialize(const std::string &raw)
+{
 	json j = json::parse(raw);
 	amount = j["amount"], address = j["address"];
 }
 
-std::string Transaction::ToString() const {
+std::string Transaction::ToString() const
+{
 	std::vector<json> inputs, outputs;
 
 	for (auto &input: _inputs)
@@ -36,18 +41,21 @@ std::string Transaction::ToString() const {
 	return json{{"inputs", inputs}, {"outputs", outputs}}.dump();
 }
 
-std::string Transaction::ToHash() const {
+std::string Transaction::ToHash() const
+{
 	return SHA256(ToString());
 }
 
-Transaction Transaction::Create(const std::string &from, const std::string &to, uint64_t amount) {
+Transaction Transaction::Create(const std::string &from, const std::string &to, uint64_t amount)
+{
 	Transaction tx;
 	tx.AddInput({amount, from, {}});
 	tx.AddOutput({amount, to});
 	return tx;
 }
 
-Transaction Transaction::CreateRandom() {
+Transaction Transaction::CreateRandom()
+{
 	SecretKey key = SecretKey::New();
 	ByteArray pubkey = key.GetPublicKey().ToHex();
 	std::string address{pubkey.begin(), pubkey.end()};
@@ -60,7 +68,8 @@ Transaction Transaction::CreateRandom() {
 	
 }
 
-Transaction Transaction::FromString(const std::string &raw) {
+Transaction Transaction::FromString(const std::string &raw)
+{
 	Transaction tx;
 	json j = json::parse(raw);
 

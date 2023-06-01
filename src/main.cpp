@@ -1,11 +1,17 @@
 #include <iostream>
-#include <transaction.hpp>
+#include <block.hpp>
 
 using namespace artha;
 
 int main()
 {
-	auto tx = Transaction::FromString(Transaction::CreateRandom().ToString());
-	std::cout << tx.ToString() << std::endl;
+	Block block{
+		Transaction::CreateRandom(),
+		Transaction::CreateRandom(),
+		Transaction::CreateRandom()
+	};
+	block.UpdateTimestamp();
+	std::cout << block.ToString() << std::endl;
+
 	return 0;
 }
