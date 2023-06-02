@@ -1,3 +1,4 @@
+#include "crypto/base16.hpp"
 #include <transaction.hpp>
 
 namespace artha {
@@ -39,7 +40,7 @@ std::string Transaction::ToString() const
 	return json{{"inputs", inputs}, {"outputs", outputs}}.dump();
 }
 
-std::string Transaction::ToHash() const
+Hash Transaction::ToHash() const
 {
 	return SHA256(ToString());
 }
@@ -47,9 +48,27 @@ std::string Transaction::ToHash() const
 Transaction Transaction::Create(const std::string &from, const std::string &to, uint64_t amount)
 {
 	Transaction tx;
-	tx.AddInput({amount, from, {}});
+	tx.AddInput({amount, from});
 	tx.AddOutput({amount, to});
 	return tx;
+}
+
+TransactionError Transaction::Validate()
+{
+	if (_inputs.empty())
+		return TransactionError::MISSING_INPUTS;
+
+	for (auto &input: _inputs) {
+
+		PublicKey pubKey(input.address);
+		Hash hash = SHA256(input.Serialize());
+
+		if (!pubKey.Verify(hash, input.signature)) {
+			return TransactionError::SIG_MISMATCH;
+		}
+	}
+
+	return TransactionError::NONE;
 }
 
 Transaction Transaction::CreateRandom()
@@ -60,7 +79,7 @@ Transaction Transaction::CreateRandom()
 	uint64_t amount = Random<uint64_t>(100, 5000);
 
 	Transaction tx;
-	tx.AddInput({amount, address, {}});
+	tx.AddInput({amount, address});
 	tx.AddOutput({amount, address});
 	return tx;
 	

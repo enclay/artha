@@ -76,7 +76,7 @@ void Block::UpdateTimestamp()
 
 std::string Block::CalcHash() const
 {
-	return SHA256(ToString());
+	return HashToHex(SHA256(ToString()));
 }
 
 void Block::AddTransaction(const Transaction &tx)

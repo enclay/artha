@@ -1,9 +1,15 @@
+#include "crypto/base16.hpp"
 #include <crypto/key.hpp>
 #include <crypto/random.hpp>
 
 #include <stdexcept>
 
 namespace artha {
+
+SecretKey::SecretKey(const std::string &hex)
+{
+	Set(DecodeBase16({hex.begin(), hex.end()}));
+}
 
 SecretKey::SecretKey(std::span<const uint8_t> keydata)
 {

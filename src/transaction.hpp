@@ -10,6 +10,8 @@
 #include <crypto/base16.hpp>
 #include <crypto/random.hpp>
 
+#include <error.hpp>
+
 #include <nlohmann/json.hpp>
 
 namespace artha {
@@ -35,14 +37,16 @@ struct Output {
 
 class Transaction {
 public:
-	std::vector<Input> Inputs() const { return _inputs; }
-	std::vector<Output> Outputs() const { return _outputs; }
+	std::vector<Input> &Inputs() { return _inputs; }
+	std::vector<Output> &Outputs() { return _outputs; }
 
 	void AddInput(const Input &input) { _inputs.push_back(input); }
 	void AddOutput(const Output &output) { _outputs.push_back(output); }
 
 	std::string ToString() const;
-	std::string ToHash() const;
+	Hash ToHash() const;
+
+	TransactionError Validate();
 
 	static Transaction Create(const std::string &from, const std::string &to, uint64_t amount);
 	static Transaction CreateRandom();

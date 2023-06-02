@@ -1,13 +1,16 @@
-#include "blockchain.hpp"
-#include "termcolor/termcolor.hpp"
+#include <wallet.hpp>
 #include <iostream>
-#include <block.hpp>
 
 using namespace artha;
 
 int main()
 {
-	Blockchain chain = Blockchain::CreateRandom();
-	std::cout << chain.ToString() << std::endl;
+	Wallet wallet;
+
+	if (auto [tx, err] = wallet.Send("AABB", 50); !err) 
+		std::cout << "Transaction has been successfully signed!" << std::endl;
+	else
+		std::cout << ErrorToString(err) << std::endl;
+
 	return 0;
 }

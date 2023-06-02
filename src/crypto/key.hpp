@@ -12,6 +12,7 @@ class SecretKey {
 public:
 	SecretKey() = default;
 	SecretKey(std::span<const uint8_t> keydata);
+	SecretKey(const std::string &hex);
 
 	void Set(const std::string &string);
 	void Set(std::span<const uint8_t> keydata);

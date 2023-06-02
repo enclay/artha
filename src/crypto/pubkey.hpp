@@ -14,6 +14,7 @@ class PublicKey {
 public:
 	PublicKey() = default;
 	PublicKey(std::span<const uint8_t> data);
+	PublicKey(std::string hex);
 
 	void Set(std::span<const uint8_t> data);
 	bool Verify(const MessageHash &msg, const ByteArray &signature);

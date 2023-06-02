@@ -1,3 +1,4 @@
+#include "crypto/base16.hpp"
 #include <crypto/pubkey.hpp>
 
 #include <stdexcept>
@@ -13,6 +14,11 @@ void PublicKey::Set(std::span<const uint8_t> data)
 PublicKey::PublicKey(std::span<const uint8_t> data)
 {
 	Set(data);
+}
+
+PublicKey::PublicKey(std::string hex)
+{
+	Set(DecodeBase16({hex.begin(), hex.end()}));
 }
 
 bool PublicKey::Verify(const MessageHash &msg, const ByteArray &signatureData)

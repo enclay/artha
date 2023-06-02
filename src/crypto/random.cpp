@@ -15,7 +15,7 @@ std::string RandomSecretKey()
 	for (int i = 0; i < 10; i++)
 		randString += eng();
 
-	return artha::SHA256(randString).substr(0, 32);
+	return HashToHex(SHA256(randString)).substr(0, 32);
 }
 
 }
