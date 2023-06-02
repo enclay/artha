@@ -5,7 +5,6 @@
 #include <filesystem>
 #include <fstream>
 
-
 namespace artha {
 
 Blockchain::Blockchain(bool isMain): _isMain(isMain)

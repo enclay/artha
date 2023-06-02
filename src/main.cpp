@@ -1,10 +1,22 @@
-#include <settings.hpp>
+#include <platform/system.hpp>
+#include <transaction.hpp>
+#include <blockchain.hpp>
+#include <wallet.hpp>
+#include <miner.hpp>
+
+#include <chrono>
 #include <iostream>
 
 using namespace artha;
 
 int main()
 {
-	Settings settings;
-	std::cout << settings.Port() << std::endl;
+	Blockchain chain;
+	chain.AddTransaction(Transaction::CreateRandom());
+	chain.AddTransaction(Transaction::CreateRandom());
+
+	Wallet wallet;
+
+	Miner miner{chain, wallet.GetActiveAddress()};
+	miner.Start();
 }
