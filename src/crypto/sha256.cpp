@@ -39,7 +39,7 @@ Hash SHA256(const std::string &str)
 std::string HashToHex(const Hash &hash)
 {
 	std::stringstream ss;
-	for(size_t i = 0; i < 32; i++) {
+	for (size_t i = 0; i < 32; i++) {
 		ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
 	}
 	return ss.str();
