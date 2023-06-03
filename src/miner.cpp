@@ -37,11 +37,8 @@ void Miner::Start()
 
 		std::cout << termcolor::red << "Trying to mine a block..." << std::endl;
 
-		auto finished = false;
-		while (!finished)
-			finished = MineBlock(newBlock);
+		while (!MineBlock(newBlock));
 
-		std::cout << termcolor::green << "Block mined!" << std::endl;
 		_chain.ClearPool();
 	}
 }
@@ -61,10 +58,11 @@ bool Miner::MineBlock(Block &newBlock)
 		
 		bool hasLeadingZero = true;
 		for (size_t i = 0; i < DIFFICULTY; i++) {
-			hasLeadingZero &= (hash[i] == 0);
+			hasLeadingZero &= (hash[i] == '0');
 		}
 
 		if (hasLeadingZero)	{
+			std::cout << termcolor::green << "Block with " << newBlock.Transactions().size() << " transactions mined!" << std::endl;
 			std::cout << termcolor::green << "Nonce is: " << (size_t)n << std::endl;
 			return true;
 		}

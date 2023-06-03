@@ -16,6 +16,8 @@ public:
 public:
 	// little for test purposes
 	static constexpr auto MIN_TX_PER_BLOCK = 1;
+
+	// number of leading zeroes to search for
 	static constexpr auto DIFFICULTY = 2;
 
 protected:
