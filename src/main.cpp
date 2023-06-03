@@ -17,6 +17,6 @@ int main()
 
 	Wallet wallet;
 
-	Miner miner{chain, wallet.GetActiveAddress()};
+	Miner miner{chain};
 	miner.Start();
 }

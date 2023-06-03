@@ -12,15 +12,9 @@
 
 namespace artha {
 
-Miner::Miner(Blockchain &chain, const std::string &rewardAddr)
-	: _chain(chain), _rewardAddr(rewardAddr)
+Miner::Miner(Blockchain &chain)
+	: _chain(chain)
 {
-	Settings settings;
-	_rewardAddr = settings.RewardAddress();
-	if (_rewardAddr.empty()) {
-		_rewardAddr = Wallet().GetActiveAddress();
-		settings.SetRewardAddress(_rewardAddr);
-	}
 }
 
 void Miner::Start()

@@ -8,7 +8,7 @@ namespace artha {
 
 class Miner {
 public:
-	Miner(Blockchain &chain, const std::string &rewardAddr);
+	Miner(Blockchain &chain);
 
 	void Start();
 	bool MineBlock(Block &newBlock);
@@ -22,7 +22,6 @@ public:
 
 protected:
 	Blockchain &_chain;
-	std::string _rewardAddr;
 };
 
 }
