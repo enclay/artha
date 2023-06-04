@@ -4,7 +4,6 @@
 #include <settings.hpp>
 #include <crypto/sha256.hpp>
 #include <platform/system.hpp>
-
 #include <termcolor/termcolor.hpp>
 
 #include <iostream>
@@ -17,24 +16,56 @@ Miner::Miner(Blockchain &chain)
 {
 }
 
+bool Miner::EnoughTransactions() 
+{
+	return _chain.Pool().size() >= MIN_TX_PER_BLOCK;
+}
+
 void Miner::Start()
 {
 	for (;;) {
-		while (_chain.Pool().size() < MIN_TX_PER_BLOCK) {
+		while (!EnoughTransactions()) {
 			std::cout << termcolor::yellow << "Not enough transactions" << std::endl;
-			artha::Sleep(1000);
+			artha::Sleep(CHECK_INTERVAL);
 		}
-
-		Block newBlock;
-		for (const auto &tx: _chain.Pool())
-			newBlock.AddTransaction(tx);
-
-		std::cout << termcolor::red << "Trying to mine a block..." << std::endl;
-
-		while (!MineBlock(newBlock));
-
-		_chain.ClearPool();
+		ProcessNextBlock();
 	}
+}
+
+void Miner::StartWithTimeout(unsigned timeout)
+{
+	for (;;) {
+		unsigned alreadyWaited = 0;
+
+		while (!EnoughTransactions()) {
+
+			if (alreadyWaited > timeout) {
+				std::cout << termcolor::red << "Timeout reached" << std::endl;
+				std::cout << termcolor::reset;
+				return;
+			}
+
+			std::cout << termcolor::yellow << "Not enough transactions" << std::endl;
+			artha::Sleep(CHECK_INTERVAL);
+			
+			alreadyWaited += CHECK_INTERVAL;
+		}
+		
+		ProcessNextBlock();
+	}
+}
+
+void Miner::ProcessNextBlock()
+{
+	Block newBlock;
+	for (const auto &tx: _chain.Pool())
+		newBlock.AddTransaction(tx);
+
+	std::cout << termcolor::red << "Trying to mine a block..." << std::endl;
+
+	while (!MineBlock(newBlock));
+
+	_chain.ClearPool();
 }
 
 bool Miner::MineBlock(Block &newBlock)

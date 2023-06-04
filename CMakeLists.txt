@@ -23,9 +23,10 @@ set(ARTHA_INCLUDE_DIRS
 
 add_executable(artha ${ARTHA_SOURCES})
 
+find_package(Boost 1.40 COMPONENTS program_options REQUIRED)
 find_package(OpenSSL REQUIRED)
 add_subdirectory(3rdparty/secp256k1/)
 
-target_link_libraries(artha secp256k1 OpenSSL::SSL)
+target_link_libraries(artha secp256k1 OpenSSL::SSL ${Boost_LIBRARIES})
 
 target_include_directories(artha PUBLIC ${ARTHA_INCLUDE_DIRS})

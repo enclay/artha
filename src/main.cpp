@@ -1,26 +1,60 @@
-#include <net/client.hpp>
+#include <program_options.hpp>
 #include <net/server.hpp>
+#include <net/client.hpp>
+#include <wallet.hpp>
+#include <miner.hpp>
 
 using namespace artha;
 
 int main(int argc, char** argv)
 {
-	if (argc < 2) {
-		std::cout << "missing arguments" << std::endl;
-		return -1;
-	}
+	ProgramOptions opts(argc, argv);
 
-	std::string opt = argv[1];
+	opts.Builder()
+		.Arg<uint16_t>("port")
+		.Arg<std::string>("address")
+		.Arg<uint64_t>("amount")
+		.Arg<std::string>("peers");
 
-	if (opt == "client") {
+	opts.On("send", [&]()
+	{
+		auto peers = opts.Require<std::string>("peers");
+		auto address = opts.Require<std::string>("address");
+		auto amount = opts.Require<uint64_t>("amount");
+
 		Client client;
-		client.AddPeer({"127.0.0.1", 5002});
-		auto response = client.Request("Hey there!");
-		std::cout << response << std::endl;
-	}
+		client.AddPeers(peers);
 
-	else if (opt == "server") {
+		Wallet wallet;
+		auto [tx, err] = wallet.Send(address, amount);
+		if (!err) {
+			auto response = client.Request(tx.ToString());
+			std::cout << response << std::endl;
+		}
+	});
+
+	opts.On("mine", [&]()
+	{
+		Block block;
+		block.AddTransaction(Transaction::CreateRandom());
+		block.AddTransaction(Transaction::CreateRandom());
+		block.AddTransaction(Transaction::CreateRandom());
+
+		Blockchain chain;
+		chain.AddBlock(block);
+		
+		auto port = opts.Require<uint16_t>("port");
 		Server server;
-		server.Listen(5002);
-	}
+		server.SetHandler([&](const std::string &msg) -> std::string
+		{
+			auto tx = Transaction::FromString(msg);
+			chain.AddTransaction(tx);
+			Miner miner{chain};
+			miner.StartWithTimeout(2000);	
+			return "Transaction sent to miner";
+		});
+		server.Listen(port);
+	});
+
+	opts.Process();
 }
