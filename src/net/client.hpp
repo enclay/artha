@@ -16,6 +16,9 @@ public:
 	void AddPeer(Endpoint peer);
 	std::vector<Peer> &Peers() { return _peers; }
 
+	std::string Request(const std::string &msg);
+	void Broadcast(const std::string &msg);
+
 protected:
 	net::io_context _ctx;
 	tcp::resolver _resolver;

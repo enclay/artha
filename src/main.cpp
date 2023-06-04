@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	if (opt == "client") {
 		Client client;
 		client.AddPeer({"127.0.0.1", 5002});
-		std::string response = client.Peers().front().Send("Hey there!");
+		auto response = client.Request("Hey there!");
 		std::cout << response << std::endl;
 	}
 
