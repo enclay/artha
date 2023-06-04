@@ -3,6 +3,7 @@
 #include <net/client.hpp>
 #include <wallet.hpp>
 #include <miner.hpp>
+#include <termcolor/termcolor.hpp>
 
 using namespace artha;
 
@@ -29,7 +30,7 @@ int main(int argc, char** argv)
 		auto [tx, err] = wallet.Send(address, amount);
 		if (!err) {
 			auto response = client.Request(tx.ToString());
-			std::cout << response << std::endl;
+			std::cout << termcolor::green << response << std::endl;
 		}
 	});
 
@@ -51,7 +52,7 @@ int main(int argc, char** argv)
 			chain.AddTransaction(tx);
 			Miner miner{chain};
 			miner.StartWithTimeout(2000);	
-			return "Transaction sent to miner";
+			return "Transaction accepted by miner";
 		});
 		server.Listen(port);
 	});
