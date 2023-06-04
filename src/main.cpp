@@ -1,22 +1,26 @@
-#include <platform/system.hpp>
-#include <transaction.hpp>
-#include <blockchain.hpp>
-#include <wallet.hpp>
-#include <miner.hpp>
-
-#include <chrono>
-#include <iostream>
+#include <net/client.hpp>
+#include <net/server.hpp>
 
 using namespace artha;
 
-int main()
+int main(int argc, char** argv)
 {
-	Blockchain chain;
-	chain.AddTransaction(Transaction::CreateRandom());
-	chain.AddTransaction(Transaction::CreateRandom());
+	if (argc < 2) {
+		std::cout << "missing arguments" << std::endl;
+		return -1;
+	}
 
-	Wallet wallet;
+	std::string opt = argv[1];
 
-	Miner miner{chain};
-	miner.Start();
+	if (opt == "client") {
+		Client client;
+		client.AddPeer({"127.0.0.1", 5002});
+		std::string response = client.Peers().front().Send("Hey there!");
+		std::cout << response << std::endl;
+	}
+
+	else if (opt == "server") {
+		Server server;
+		server.Listen(5002);
+	}
 }
