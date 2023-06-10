@@ -17,17 +17,15 @@ Peer::~Peer()
 
 std::string Peer::Send(const std::string &text)
 {
-	try
-	{
+	try {
 		beast::flat_buffer buffer;
 		_socket->write(net::buffer(text));
 		_socket->read(buffer);
 		return beast::buffers_to_string(buffer.data());
 	}
-	catch (const beast::system_error &error)
-	{
-		if(error.code() != websocket::error::closed)
-			std::cerr << "Send error: " << error.code().message() << std::endl;
+	catch (const beast::system_error &e) {
+		if(e.code() != websocket::error::closed)
+			std::cout << "Send error: " << e.code().message() << std::endl;
 		return "";
 	}
 }
@@ -40,8 +38,8 @@ void Peer::Connect(tcp::resolver &rv)
 		auto host = _info.addr + ':' + std::to_string(ep.port());
 		_socket->handshake(host, "/");
 	}
-	catch (std::exception const &e) {
-		std::cerr << "Connection error: " << e.what() << std::endl;
+	catch (const std::exception &e) {
+		std::cout << "Connection error: " << e.what() << std::endl;
 	}
 }
 

@@ -66,8 +66,9 @@ void Server::SocketHandler(tcp::socket socket)
 			ws.write(net::buffer(response));
 		}
 	}
-	catch (const std::runtime_error &e) {
-		std::cout << "Socket closed: " << e.what() << std::endl;
+	catch (const beast::system_error &e) {
+		if(e.code() != websocket::error::closed)
+			std::cout << "Socket closed: " << e.code().message() << std::endl;
 	}
 }
 
