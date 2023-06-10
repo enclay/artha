@@ -12,10 +12,10 @@ int main(int argc, char** argv)
 	ProgramOptions opts(argc, argv);
 
 	opts.Builder()
-		.Arg<uint16_t>("port")
-		.Arg<std::string>("address")
-		.Arg<uint64_t>("amount")
-		.Arg<std::string>("peers");
+		.Arg<uint16_t>("port", "Websocket port")
+		.Arg<std::string>("address", "Public wallet address")
+		.Arg<uint64_t>("amount", "Amount of coins")
+		.Arg<std::string>("peers", "Peers as formatted string (example: ip:port;ip:port)");
 
 	opts.On("send", [&]()
 	{

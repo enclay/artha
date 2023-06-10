@@ -3,7 +3,6 @@
 
 #include <chrono>
 #include <sstream>
-#include <nlohmann/adl_serializer.hpp>
 
 namespace artha {
 

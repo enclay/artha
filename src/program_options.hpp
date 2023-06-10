@@ -21,8 +21,14 @@ public:
 	OptionInitWrapper &Arg(const char *name) { return Arg<T>(name, name); }
 
 	template <class T>
-	OptionInitWrapper &Arg(const char *name, const char *fullname) {
-		return _handle(name, po::value<T>(), fullname), *this;
+	OptionInitWrapper &Arg(const char *name, const char *desc) {
+		return _handle(name, po::value<T>(), desc), *this;
+	}
+
+	OptionInitWrapper &Arg(const char *name) { return Arg(name, name); }
+
+	OptionInitWrapper &Arg(const char *name, const char *desc) {
+		return _handle(name, desc), *this;
 	}
 
 	OptionInitWrapper(po::options_description_easy_init &&d): _handle(d) {}
@@ -34,7 +40,7 @@ private:
 
 class ProgramOptions {
 public:
-	ProgramOptions(int argc, char **argv): _argc(argc), _argv(argv), _desc("artha cryptocurrency") {
+	ProgramOptions(int argc, char **argv): _argc(argc), _argv(argv), _desc("Artha CLI usage") {
 
 	}
 
@@ -68,6 +74,7 @@ public:
 
 protected:
 	void Setup();
+	void PrintHelp();
 	void OptionMissingError(const std::string &name);
 
 protected:

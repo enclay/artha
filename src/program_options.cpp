@@ -12,6 +12,11 @@ void ProgramOptions::Process()
 {
 	Setup();
 
+	if (!HasOption("cmd") || HasOption("help")) {
+		PrintHelp();
+		return;
+	}
+
 	std::string opt = Option<std::string>("cmd");
 	if (!_handlers.contains(opt)) {
 		std::cout << "wrong command" << std::endl;
@@ -20,10 +25,17 @@ void ProgramOptions::Process()
 	_handlers[opt]();
 }
 
-OptionInitWrapper ProgramOptions::Builder() {
+void ProgramOptions::PrintHelp()
+{
+	std::cout << _desc << std::endl;
+}
+
+OptionInitWrapper ProgramOptions::Builder()
+{
 	return OptionInitWrapper{_desc.add_options()}
-		.Arg<std::string>("cmd", "command")
-		.Arg<std::string>("value");
+		.Arg("help", "Print commands usage")
+		.Arg<std::string>("cmd", "Command")
+		.Arg<std::string>("value", "Optional value");
 }
 
 bool ProgramOptions::HasOption(const std::string &name)
