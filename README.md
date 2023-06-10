@@ -3,7 +3,7 @@
 	<summary><h1 style="display: inline-block;">Artha</h1></summary>
   </ul>
 
-  In Sanskrit: **अर्थ** =  one of main human life objectives: **wealth and prosperity**
+  In Sanskrit: **अर्थ** = one of the main life objectives: **wealth and prosperity**
 </div>
 
 ___
