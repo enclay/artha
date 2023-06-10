@@ -9,11 +9,14 @@ It is a proof-of-concept and cannot be regarded as stable.
 * **P2P** via websockets
 
 
-<p align="middle">
-<img src="./images/minernode.png" alt="Size Limit CLI" width="47%">
-<img src="./images/fullnode.png" alt="Size Limit CLI" width="47%">
-</p>
+<img src="./images/minernode.png" alt="Size Limit CLI" width="75%">
 
+<details>
+
+<summary> <h4> Send a transaction </h4> (screenshot) </summary>
+<img src="./images/fullnode.png" alt="Size Limit CLI" width="75%">
+
+</details>
 
 # Compilation
    
